@@ -1,0 +1,18 @@
+* {
+	box-sizing: border-box;
+}
+.font{
+	font-family: "Raleway"
+}
+.card {
+	background-color: white;
+	margin: auto;
+	max-width: 600px;
+	text-align: center;
+	padding: 25px;
+	font-size: 35px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.button {
+	font-size: 16px;
+}
