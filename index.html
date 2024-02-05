@@ -6,11 +6,17 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     </head>
     <body>
+        <header class="center font">
+            <h1>Weather app</h1>
+        </header>
         <script src="script.js"></script>
         <div class="card font">
             Enter a City<br>
             <input class="text" type="text" id="inputField" placeholder="Search for City.." title="Type in a city">
-            <button class="button">Enter</button>
+            <button class="button" onclick="findCity(document.getElementById('inputField').value)">Enter</button>
+        </div><br>
+        <div class="text Weather">
+            <script type="text/javascript">findCity('Brooklyn')</script>
         </div>
     </body>
 </html>

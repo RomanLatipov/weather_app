@@ -4,6 +4,18 @@
 .font{
 	font-family: "Raleway"
 }
+.text {
+	text-transform: capitalize;
+}
+.grey{
+	color:#000!important;background-color:#f1f1f1!important
+}
+.white{
+	color:#000!important;background-color:#fff!important
+}
+.center{
+	text-align: center;
+}
 .card {
 	background-color: white;
 	margin: auto;
@@ -13,6 +25,22 @@
 	font-size: 35px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.button {
-	font-size: 16px;
-}
+.indent {
+	text-indent: 50px;
+  }
+  h1{
+	  font-size:40px;
+  }
+  h2{
+	  font-size:35px;
+  }
+  h3{
+	  font-size:30px;
+  }
+  .space br {
+	  content: "";  	
+		display: block;
+  }
+  .button {
+	  font-size: 16px;
+  }
