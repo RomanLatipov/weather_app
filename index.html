@@ -3,20 +3,40 @@
     <head>
         <title>My Weather app</title>
         <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     </head>
     <body>
         <header class="center font">
-            <h1>Weather app</h1>
         </header>
         <script src="script.js"></script>
-        <div class="card font">
-            Enter a City<br>
-            <input class="text" type="text" id="inputField" placeholder="Search for City.." title="Type in a city">
-            <button class="button" onclick="findCity(document.getElementById('inputField').value)">Enter</button>
-        </div><br>
-        <div class="text Weather">
-            <script type="text/javascript">findCity('Brooklyn')</script>
+        <div class="card">
+        	<div class="semi-circle">
+        		<div class="search">
+        			<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
+					<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
+				</div>
+				<p class="city">London</p>
+				<p class="type">Sunny, sometimes overcast</p>
+				<div class="weather">
+					<img src="./assets/rain.png" class="weather icon">
+				</div>
+			</div>
+			<div class="info">
+				<div class="humidity">
+					<img src="./assets/humidity.png">
+					<p>27%</p>
+				</div>
+				<p class="temp">27°</p>
+				<div class="wind">
+					<img src="./assets/wind.png">
+					<p>24km/h</p>
+				</div>
+			</div>
         </div>
+        <!-- <div class="text Weather">
+            <script type="text/javascript">findCity('Brooklyn')</script>
+        </div> -->
     </body>
 </html>
