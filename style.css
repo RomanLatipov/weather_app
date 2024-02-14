@@ -22,17 +22,6 @@ body {
 	border-bottom-left-radius: 60% 50%;
 	border-bottom-right-radius: 60% 50%;
 }
-.info {
-	font-family: 'Roboto', sans-serif;
-	background: linear-gradient(to bottom, #ebf8fd, white 25%);
-	height: 400px;
-	margin: 40px -35px;
-	padding-top: 20%;
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	justify-content: space-evenly;
-}
 .search {
 	/*text-transform: capitalize;*/
 	/*width: 100%;*/
@@ -90,21 +79,26 @@ body {
 	font-weight: bold;
 	color: grey;
 }
+.info {
+	background: linear-gradient(to bottom, #ebf8fd, white 25%);
+	height: 400px;
+	margin: 40px -35px;
+	padding-top: 20%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
 .humidity {
 	font-size: 15px;
 	font-weight: bold;
 	color: grey;
-}
-.humidity img {
-	height: 70px;
-	filter: drop-shadow(0 0 0.75rem rgb(82, 86, 87));
 }
 .wind {
 	font-size: 15px;
 	font-weight: bold;
 	color: grey;
 }
-.wind img {
+.info img {
 	height: 70px;
 	filter: drop-shadow(0 0 0.75rem rgb(82, 86, 87));
 }
