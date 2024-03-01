@@ -102,6 +102,7 @@ body {
   	width: 65%;
 }
 .forecast {
+	padding: 2%;
 	margin-bottom: 5%;
 	display: flex;
 	align-items: center;
