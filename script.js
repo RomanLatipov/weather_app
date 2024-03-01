@@ -7,13 +7,17 @@ async function findCity(location) {
     // const hour = new Date(data.dt*1000);
     // const time = (hour>=7 && hour<22) ? "day" : "night";
     // console.log(hour);
-    // console.log(new Date(data.timezone*1000));
+    //console.log((data.dt*1000));
+
+    const time = Date.now();
+    const date = new Date(time);
+    console.log(date);
 
     document.querySelector(".city").innerHTML = data.name;
     document.querySelector(".type").innerHTML = data.weather[0].description.charAt(0).toUpperCase()+data.weather[0].description.slice(1);;
     document.querySelector(".temp").innerHTML = ((data.main.temp-273)*(9/5)+32).toFixed(0)+"°";
-    document.querySelector(".humidity").innerHTML = data.main.humidity+"%";
-    document.querySelector(".wind").innerHTML = data.wind.speed+" mph";
+    // document.querySelector(".humidity").innerHTML = data.main.humidity+"%";
+    // document.querySelector(".wind").innerHTML = data.wind.speed+" mph";
     document.querySelector(".weather-icon").src = `./assets/${(data.weather[0].main).toLowerCase()}.png`;//add fog as weather option
     document.getElementById('inputField').value = "";
     

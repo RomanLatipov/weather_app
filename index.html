@@ -13,11 +13,9 @@
         <script src="script.js"></script>
 		<script type="text/javascript">findCity('New York')</script>
         <div class="card">
-        	<div class="semi-circle">
-        		<div class="search">
-        			<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
-					<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
-				</div>
+			<div class="search">
+        		<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
+				<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
 				<script>
 					var input = document.getElementById("inputField");
 					input.addEventListener("keypress", function(event) {
@@ -26,28 +24,21 @@
 						document.querySelector("button").click();
 					  }
 					});
-					</script>
-				<p class="city"></p>
-				<p class="type"></p>
-				<div class="weather">
-					<img src="" class="weather-icon">
-				</div>
+				</script>
 			</div>
 			<div class="info">
-				<div class="grid">
-					<div>
-						<img src="./assets/humidity.png">
-						<p class="humidity"></p>
-					</div>
-					<p class="temp">°</p>
-					<div>
-						<img src="./assets/wind.png">
-						<p class="wind"></p>
-					</div>
+				<div class="description">
+					<p class="city">New York</p>
+					<p class="temp">27°</p>
+					<p class="type">Mosly Sunny</p>
 				</div>
+				<div class="weather">
+					<img src="./assets/rain.png" class="weather-icon">
+				</div>
+			</div>
+			<div class="forecast">
 				<div class="hourly-forecast"></div>
 			</div>
-			
         </div>
     </body>
 </html>
