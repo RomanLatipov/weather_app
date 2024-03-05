@@ -55,32 +55,34 @@ body {
 	box-shadow: 0 0 6px rgba(35, 173, 278, 1);
 }
 .weather img {
-	/* margin-top: 20px;
-	margin-bottom: -60px;
-	width: 300px; */
-	filter: drop-shadow(0 0 0.75rem rgb(97, 185, 218));
+	filter: drop-shadow(0 0 0.85rem rgb(111, 116, 118));
 }
 .city {
-	font-size: 2em;
+	font-size: 3em;
 	color: rgba(80, 85,231,1);
 }
 .type {
-	font-size: 50px;
-	color: grey;
-	font-weight: bold;
-	padding-bottom: 5%;
-}
+	font-size: 3em;
+	color: rgba(80, 85,231,1);
+} 
 .temp {
 	font-size: 13em;
 	font-weight: 900;
 	color: rgba(80, 85,231,1);
 }
-/* .weather {
-	float: right;
-  	width: 35%;
+.weather {
+	margin-top: -10%;
   	display: flex;
     align-items: center;
-} */
+}
+.type {
+	float: left;
+	width: 70%;
+}
+.weather-icon {
+	float: right;
+	width: 30%;
+}
 .info {
 	background: linear-gradient(135deg, rgba(208,211,255,1) 0%, rgba(148,187,233,0.9) 50%, rgba(231,231,255,1) 100%);
 	height: 70%;
@@ -88,10 +90,11 @@ body {
 	border-style: solid;
   	border-color: transparent transparent white transparent;
 }
-/* .description {
-	float: left;
-  	width: 65%;
-} */
+.description {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+} 
 .forecast {
 	height: 30%;
 }
