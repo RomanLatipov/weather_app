@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
     </head>
     <body>
         <header>
@@ -13,25 +13,22 @@
         <script src="script.js"></script>
 		<script type="text/javascript">findCity('New York')</script>
         <div class="card">
-			<div class="search">
-        		<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
-				<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
-				<script>
-					var input = document.getElementById("inputField");
-					input.addEventListener("keypress", function(event) {
-					  if (event.key === "Enter") {
-						event.preventDefault();
-						document.querySelector("button").click();
-					  }
-					});
-				</script>
-			</div>
-			<div class="info">
-				<div class="description">
-					<p class="city">New York</p>
-					<p class="temp">27°</p>
-					<p class="type">Mosly Sunny</p>
+    		<div class="info">
+    			<div class="search">
+					<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
+					<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
+					<script>
+						var input = document.getElementById("inputField");
+						input.addEventListener("keypress", function(event) {
+							if (event.key === "Enter") {
+								event.preventDefault();
+								document.querySelector("button").click();
+					  		}
+						});
+					</script>
 				</div>
+				<p class="city">New York</p>
+				<p class="temp">22°</p>
 				<div class="weather">
 					<img src="./assets/rain.png" class="weather-icon">
 				</div>
