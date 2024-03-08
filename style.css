@@ -33,7 +33,7 @@ body {
 .search {
 	display: flex;
 	align-items: center;
-	padding: 10% 35px;
+	padding: 1.8vh 35px;
 	justify-content: space-between;
 }
 .search input {
@@ -68,10 +68,12 @@ body {
 }
 .city, .type {
 	font-size: 50px;
+	font-size: 4.5vh;
 }
 .temp {
-	font-size: 200px;
+	/* font-size: 250px; */
 	font-weight: 900;
+	font-size: 20vh;
 }
 .weather {
 	margin-top: -10%;
@@ -98,8 +100,8 @@ body {
 	padding: 10px;
 }
 .description img {
-	width: 100px;
-	height: 100px;
+	width: 9vh;
+	height: 9vh;
 }
 .forecast {
 } 
