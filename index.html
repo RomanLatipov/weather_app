@@ -5,56 +5,51 @@
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+		<script src="script.js"></script>
     </head>
     <body>
         <header>
         </header>
-        <script src="script.js"></script>
 		<script type="text/javascript">findCity('New York')</script>
-        <div class="card">
-    		<div class="info">
-    			<div class="search">
-					<input type="text" id="inputField" placeholder="Enther city name" title="Type in a city">
-					<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
-					<script>
-						var input = document.getElementById("inputField");
-						input.addEventListener("keypress", function(event) {
-							if (event.key === "Enter") {
-								event.preventDefault();
-								document.querySelector("button").click();
-					  		}
-						});
-					</script>
-				</div>
-				<p class="city">New York</p>
-				<p class="temp">22°</p>
-				<div class="weather">
-					<p class="type">mostly cloudy</p>
-					<img src="./assets/rain.png" class="weather-icon">
-				</div>
-				<div class="description">
-					<div>
-						<img src="./assets/humidity.png">
-						<p class="humidity" style="font-size: 3vh;">30%</p>
-						<p style="font-size: 1.5vh;">Humidity</p>
-					</div>
-					<div>
-						<img src="./assets/rain.png">
-						<p class="precipitation" style="font-size: 3vh;">30%</p>
-						<p style="font-size: 1.5vh;">Precipitation</p>
-					</div>
-					<div>
-						<img src="./assets/wind.png">
-						<p class="wind" style="font-size: 3vh;">4.5m/h</p>
-						<p style="font-size: 1.5vh;">Wind</p>
-					</div>
-				</div>
+        <div id="card">
+        	<div class="search">
+				<input type="text" id="inputField" placeholder="Enter city name" title="Type in a city">
+				<button class="button" onclick="findCity(document.getElementById('inputField').value)"><img src="./assets/search.png"></button>
 			</div>
+
+			<div id="info">
+				<h1 id="city" style="font-size: 50px;">New York</h1>
+				<div id="weather">
+					<p id="temp" style="font-size: 170px; font-weight: 900;">27°</p>
+					<img src="./assets/drizzle.svg" id="weather-icon">
+				</div>
+				<p id="type">Mostly cloudy</p>
+			</div>
+			<div id="description">
+				<div>
+					<img src="./assets/humidity.svg">
+					<p id="humidity" style="font-size: 25px;">30%</p>
+					<p style="font-size: 15px;">Humidity</p>
+				</div>
+				<p style="font-size: 40px; color: white">|</p>
+				<div>
+					<img src="./assets/rain.svg">
+					<p id="precipitation" style="font-size: 25px;">30%</p>
+					<p style="font-size: 15px;">Precipitation</p>
+				</div>
+				<p style="font-size: 40px; color: white">|</p>
+				<div>
+					<img src="./assets/wind.svg">
+					<p id="wind" style="font-size: 25px;">4.5m/h</p>
+					<p style="font-size: 15px;">Wind</p>
+				</div>
+			</div> 
 			<div class="forecast">
-				<p>Hourly Forecast</p><br>
-				<div class="hourly-forecast"></div>
-			</div>
+				<br>
+				<p style="font-size: 30px; text-shadow: 2px 2px 15px #757575;">Hourly Forecast</p>
+			<div class="hourly-forecast"></div>
+			<script>eventListeners()</script>
         </div>
     </body>
 </html>
