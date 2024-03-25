@@ -3,24 +3,20 @@ async function findCity(location) {
     let reponse = await fetch(apiUrl);
     let data = await reponse.json();
     // console.log(data);
-    
-    // const time = (data.dt >= data.sys.sunrise && data.dt < data.sys.sunset) ? "day" : "night";
-    // console.log(time);
 
     //Open Weather Map's json does not have information about precipitation so I had to use their xml instead 
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&mode=xml&APPID=b206d80c92d9a53cdc890c68d85f783e`)
         .then(response => response.text())
         .then(data => {
             const parser = new DOMParser();
-            const doc = parser.parseFromString(data, "text/xml");
-            // console.log(doc);
-            const precipitationXML = doc.getElementsByTagName("precipitation")[0].getAttribute('mode');
+            const xml = parser.parseFromString(data, "text/xml");
+            const precipitationXML = xml.getElementsByTagName("precipitation")[0].getAttribute('mode');
             const precipitation = document.getElementById("precipitation");
             if ( precipitationXML === "no") {
                 precipitation.textContent = 0;
             }
             else {
-                precipitation.textContent = doc.getElementsByTagName("precipitation")[0].getAttribute("value")+" mm";
+                precipitation.textContent = Math.round(xml.getElementsByTagName("precipitation")[0].getAttribute("value"))+" mm";
             }
         });
 
@@ -33,40 +29,62 @@ async function findCity(location) {
     displayForecast(next24Hours);
 }
 function displayWeather(city) {
+    let time = (city.dt >= city.sys.sunrise && city.dt < city.sys.sunset) ? "day" : "night";
+
     document.getElementById("city").textContent = city.name;
+
     const temp = document.getElementById("temp");
-    temp.textContent = ((city.main.temp-273)*(9/5)+32).toFixed(0)+"°";
     temp.setAttribute("class", "f");
-    document.getElementById("weather-icon").src = `./assets/${(city.weather[0].main).toLowerCase()}.svg`;
+    temp.textContent = ((city.main.temp-273)*(9/5)+32).toFixed(0)+"°";
+
+    const weather = city.weather[0].main.toLowerCase();
+    const icon = document.getElementById("weather-icon");
+    if (weather === "clear")
+        icon.src = `./assets/${(weather)}-${time}.svg`;
+    else
+        icon.src = `./assets/${(weather)}.svg`;
+
     document.getElementById("type").textContent = city.weather[0].description.charAt(0).toUpperCase()+city.weather[0].description.slice(1);
     document.getElementById("humidity").textContent = city.main.humidity+"%";
-    document.getElementById("wind").textContent = city.wind.speed+" mph";
-    document.getElementById("card").style.backgroundImage = `url(./assets/background/${city.weather[0].main}.jpeg)`;
+    document.getElementById("wind").textContent = Math.round(city.wind.speed)+" mph";
+
+    const background = document.getElementById("card");
+        if (weather === "clear")
+            background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}-${time}.jpeg)`;
+        else
+            background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}.jpeg)`;
     document.getElementById('inputField').value = "";
 
 }
 function displayForecast(next24Hours) {
     document.querySelector(".hourly-forecast").innerHTML = "";
 
-    for (let i = 0; i<8; i++) {
-        const hour = timeConverter(new Date(next24Hours[i].dt * 1000).getHours());
-        const temperature = Math.round((next24Hours[i].main.temp-273)*(9/5)+32);
+    next24Hours.forEach(element => {
+        const time = (parseInt(element.dt_txt.slice(-8, -6)) >= 9 && parseInt(element.dt_txt.slice(-8, -6)) < 23) ? "day" : "night";
+        const hour = timeConverter(parseInt(element.dt_txt.slice(-8, -6)));
 
+        const temperature = Math.round((element.main.temp-273)*(9/5)+32);
+        const weather = element.weather[0].main.toLowerCase();
+        let icon;
+        if (weather === "clear")
+            icon = `${weather}-${time}`;
+        else
+            icon = `${weather}`;
         const hourlyItemHtml = `
             <div class="hourly-item">
-                <img src="./assets/${(next24Hours[i].weather[0].main).toLowerCase()}.svg">
+                <img src="./assets/${icon}.svg">
                 <span style="font-size: 25px;">${temperature}°</span>
                 <span>${hour}</span>
             </div>`;
         document.querySelector(".hourly-forecast").innerHTML += hourlyItemHtml;
-    }
+    })
     function timeConverter(hour) {
-        let time = (hour >= 12) ? `${hour-12}:00 PM` : `${hour}:00 AM`;
+        // const time = (hour > 12) ? `${hour-12}:00 PM` : `${hour}:00 AM`;
+        const time = (hour > 12) ? `${hour-12}:00 PM` : ((hour === 0) ? `12:00 AM` : `${hour}:00 AM`);
         return time;
     }
-
 }
-function eventListeners() {
+const eventListeners = () => {
     const input = document.getElementById("inputField");
     input.addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
@@ -77,7 +95,6 @@ function eventListeners() {
     const tempSwitch = document.getElementById("temp");
     tempSwitch.addEventListener("click", event => {
         const temp = tempSwitch.innerHTML;
-        // console.log(event.target.className);
         if (event.target.className === "f") {
             tempSwitch.textContent = Math.round((parseInt(temp.slice(0, temp.length-1))-32)*(5/9))+"°";            
             tempSwitch.setAttribute("class", "c");
