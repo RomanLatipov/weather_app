@@ -1,18 +1,20 @@
 async function findCity(location) {
-	const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=b206d80c92d9a53cdc890c68d85f783e`;
-    let reponse = await fetch(apiUrl);
+    let reponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=b206d80c92d9a53cdc890c68d85f783e`);
     let data = await reponse.json();
-    // console.log(data);
+    console.log(data);
 
     //to get an hourly forecast Open Weather Map has a differnt api url that sends an array
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=b206d80c92d9a53cdc890c68d85f783e`;
     reponse = await fetch(forecastUrl);
-    const next24Hours = (await reponse.json()).list.slice(0, 8);
+    const forecast = (await reponse.json()).list.slice(0, 8);
 
     displayWeather(data);
-    displayForecast(next24Hours);
+    presArr = [data.main.humidity, (data.rain === undefined) ? 0 : Math.round(data.rain["1h"]), Math.round(data.wind.speed)];
+    displayInfo(presArr); 
+    displayForecast(forecast, presArr);
 }
 function displayWeather(city) {
+    document.getElementById('inputField').value = "";
     const unixTimestamp = city.dt + city.timezone;
     const dateObj = new Date(unixTimestamp * 1000);
     const utcString = dateObj.toUTCString();
@@ -22,38 +24,40 @@ function displayWeather(city) {
     document.getElementById("city").textContent = city.name;
 
     const temp = document.getElementById("temp");
-    temp.setAttribute("class", "f");
-    temp.textContent = ((city.main.temp-273)*(9/5)+32).toFixed(0)+"°";
+    const celsius = Math.round(city.main.temp-273);
+    const celAndFah = [Math.round(celsius*(9/5)+32), celsius];
+    temp.textContent = celAndFah[0]+"°";
+
+    let i = 1;
+    temp.addEventListener("click", () => {
+        if (i === 1)
+            temp.textContent = celAndFah[i--] + "°";
+        else
+            temp.textContent = celAndFah[i++] + "°";
+    });
 
     const weather = city.weather[0].main.toLowerCase();
     const icon = document.getElementById("weather-icon");
-    if (weather === "clear")
-        icon.src = `./assets/${(weather)}-${time}.svg`;
-    else
-        icon.src = `./assets/${(weather)}.svg`;
-
-    document.getElementById("type").textContent = city.weather[0].description.charAt(0).toUpperCase()+city.weather[0].description.slice(1);
-    
-    const precipitation = (city.rain === undefined) ? 0 : Math.round(city.rain["1h"]);
-    
-    this.arr = [city.main.humidity, precipitation, Math.round(city.wind.speed)]
-    displayInfo(arr);
-    
     const background = document.getElementById("card");
-        if (weather === "clear")
-            background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}-${time}.jpeg)`;
-        else
-            background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}.jpeg)`;
-    
-    document.getElementById('inputField').value = "";
+    if (weather === "clear") {
+        icon.src = `./assets/${(weather)}-${time}.svg`;
+        background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}-${time}.jpeg)`;
+    }
+    else {
+        icon.src = `./assets/${(weather)}.svg`;
+        background.style.backgroundImage = `url(./assets/background/${city.weather[0].main}.jpeg)`;
+    }
+
+    document.getElementById("type").textContent = city.weather[0].description.charAt(0).toUpperCase()+city.weather[0].description.slice(1);    
 }
 function displayInfo(arr) {
-    document.getElementById("humidity").textContent = arr[0]+"%";
+    document.getElementById("humidity").textContent = arr[0] + "%";
     document.getElementById("precipitation").textContent = arr[1] + " mm";
-    document.getElementById("wind").textContent = arr[2] +" mph";
+    document.getElementById("wind").textContent = arr[2] + " mph";
 }
-function displayForecast(next24Hours) {
+function displayForecast(next24Hours, arr) {
     document.querySelector(".hourly-forecast").innerHTML = "";
+    const descArr = [];
     let id = 0;
     next24Hours.forEach(element => {
         const time = (parseInt(element.dt_txt.slice(-8, -6)) >= 9 && parseInt(element.dt_txt.slice(-8, -6)) < 23) ? "day" : "night";
@@ -86,36 +90,19 @@ function displayForecast(next24Hours) {
         p2.textContent = `${hour}`;
         p2.setAttribute("id", id++);
 
-        const h1 = document.createElement("h1");
-        h1.style.display = "none";
-        h1.textContent = element.main.humidity;
-
-        const h2 = document.createElement("h2");
-        h2.style.display = "none";
-        if (element.rain === undefined) {
-            h2.textContent = 0;
-        }
-        else {
-            h2.textContent = Math.round(element.rain["3h"]);
-        }
-
-        const h3 = document.createElement("h3");
-        h3.style.display = "none";
-        h3.textContent = Math.round(element.wind.speed);
+        const elemArr = [element.main.humidity, (element.rain === undefined) ? 0 : Math.round(element.rain["3h"]), Math.round(element.wind.speed)];
+        descArr.push(elemArr);
 
         forecast.append(div);
         div.append(img);
         div.append(p1);
         div.append(p2);
-        div.append(h1);
-        div.append(h2);
-        div.append(h3);
 
         div.addEventListener("click", event => {
-            blur(event);
+            blur(event, descArr[event.target.id]);
         });
         div.addEventListener("mouseout", event => {
-            unBlur(event);
+            unBlur(event, arr);
         });
     });
 
@@ -131,21 +118,9 @@ const eventListeners = () => {
             event.preventDefault();
             document.querySelector("button").click();
         }            
-    });
-    const tempSwitch = document.getElementById("temp");
-    tempSwitch.addEventListener("click", event => {
-        const temp = tempSwitch.innerHTML;
-        if (event.target.className === "f") {
-            tempSwitch.textContent = Math.round((parseInt(temp.slice(0, temp.length-1))-32)*(5/9))+"°";            
-            tempSwitch.setAttribute("class", "c");
-        }
-        else {
-            tempSwitch.textContent = Math.round((parseInt(temp.slice(0, temp.length-1))*(9/5)+32))+"°";
-            tempSwitch.setAttribute("class", "f");
-        }
-    });
+    });   
 }
-function blur(event) {
+function blur(event, arr) {
     document.querySelector("#info").style.filter = "blur(3px)";
     document.querySelector("#card").style.background.filter = "blur(3px)";
     for (let i=0; i<8; i++) {
@@ -153,13 +128,9 @@ function blur(event) {
             ++i;
         document.getElementById(`${i}`).style.filter = "blur(3px)";
     }
-   const humidity = document.getElementById(event.target.id).querySelector("h1").innerHTML;
-   const precipitation = document.getElementById(event.target.id).querySelector("h2").innerHTML;
-   const wind = document.getElementById(event.target.id).querySelector("h3").innerHTML;
-   const tempArr = [humidity, precipitation, wind]
-   displayInfo(tempArr);
+   displayInfo(arr);
 }
-function unBlur(event) {
+function unBlur(event, arr) {
     document.querySelector("#info").style.filter  = "blur(0)";
     for (let i=0; i<8; i++) {
         if (i == event.target.id)
