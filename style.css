@@ -16,7 +16,7 @@ body {
 .search {
 	display: flex;
 	align-items: center;
-	padding: 10px 35px;
+	padding: 15px 35px;
 	justify-content: space-between;
 }
 .search input {
@@ -75,7 +75,7 @@ body {
 }
 #weather-icon {
 	width: 50%;
-	/* margin: -70px 0px; */
+	margin: -30px 0px;
 	margin-right: -30px;
 }
 #description {
